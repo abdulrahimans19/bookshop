@@ -1,71 +1,76 @@
 <!DOCTYPE html>
-  <html lang="en">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-      .container {
-        display: flex;
-        background-color:#EAD3D3;
-        flex-direction:column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-      }
-      .box {
-       width: 350px;
-       height: 500px;
-        padding: 20px;
-       background-color: #FEFDFD;
-        text-align: center;
-      }
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      display: flex;
+      background-color: #EAD3D3;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .box {
+      width: 350px;
+      height: 500px;
+      padding: 20px;
+      background-color: #FEFDFD;
+      text-align: center;
+    }
 
 
-      input[type="email"], input[type="password"] ,input[type="text"]{
-        width: 90%;
-        background: transparent;
-        border: none;
-        border-bottom: 1px solid #000000;
-        padding: 10px;
-        margin: 10px 0;
-        font-size: 16px;
-        border-radius: 5px;
-      }
+    input[type="email"],
+    input[type="password"],
+    input[type="text"] {
+      width: 90%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #000000;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border-radius: 5px;
+    }
 
-      input[type="submit"] {
-        width: 60%;
-        padding: 10px;
-        margin: 10px 0;
-        font-size: 16px;
-        margin-top: 50px;
-        margin-bottom: 30px;
-        background-color: #1C4973;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-        <div class="box">
-          <h1>Login</h1>
-          <form  action="/register" method="post">
-             <label for="username" style="display: block; margin-bottom: 0px;text-align: left;">Name</label>
-            <input type="text" name="username" id="username" required>  
-            <label for="email" style="display: block; margin-bottom: 10px;text-align: left;">Email</label>
-            <input type="email" name="email" id="email"  required>   
-           <label for="password" style="display: block; margin-bottom: 10px;text-align: left;">Password</label>
-            <input type="password" name="password" id="password" required>    
-            <input type="submit" value="Login">
-           </form>
-          <p>Already have an account? Please<a href="/login">Login</a></p>
-        </div>
-      </div>
-      
-  </body>
+    input[type="submit"] {
+      width: 60%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      margin-top: 50px;
+      margin-bottom: 30px;
+      background-color: #1C4973;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="box">
+      <h1>Register</h1>
+      <form action="/register" method="post">
+        <label for="username" style="display: block; margin-bottom: 0px;text-align: left;">Name</label>
+        <input type="text" name="username" id="username" required>
+        <label for="email" style="display: block; margin-bottom: 10px;text-align: left;">Email</label>
+        <input type="email" name="email" id="email" required>
+        <label for="password" style="display: block; margin-bottom: 10px;text-align: left;">Password</label>
+        <input type="password" name="password" id="password" required>
+        <input type="submit" value="Login">
+      </form>
+      <p>Already have an account? Please<a href="/">Login</a></p>
+    </div>
+  </div>
+
+</body>
+
 </html>
-

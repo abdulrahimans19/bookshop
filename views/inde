@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Store</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="">
+          <h2>Book Store</h2>
+        </a>
+        <a href="/cart">
+          <div  class="cart" >
+            <i class="bi bi-cart2"></i>
+            <div id="cartAmount" class="cartAmount">0</div>
+          </div>
+        </a>
+        <a href="/logout"><button type="button" id="addUserBtn" class="btn btn-danger">logout</button></a>
+      </div> 
+      <section>
+        <table>
+        <div class="container mt-5">
+          <div class="row row-cols-2 row-cols0lg-6 g-2 g-lg-3 py-4">
+            <% result.forEach(function(item) { %>
+            <td><div class="card" style="width: 18rem;">
+              <img class="card-img-top" src="<%= item.image %>" alt="<%= item.name %>">
+              <div class="card-body">
+                <h3>$<strong class="red"><%= item.price %></strong></h3>
+                <h5 class="card-title">Novel</h5>
+                <p class="card-text"><%= item.description %>"</p>
+                <a href="#" class="HomeBtn">cart</a>
+              </td>
+              <% })%>
+    </table>
+
+      <div class="shop" id="shop">
+    
+      </div>
+</body>
+</html>
