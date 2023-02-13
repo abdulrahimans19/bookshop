@@ -29,6 +29,12 @@ class controllProduct {
       res.render("index", { result: result })
     })
   }
+  cart = (req, res) => {
+    var cart = req.session.cart;
+    var total = req.session.total;
+     return res.render('cart', { cart: cart, total: total })
+  }
+
   addtoCart = (req, res) => {
     let id = req.body.id;
     let name = req.body.name;
@@ -49,13 +55,55 @@ class controllProduct {
     }
 
     calculateTotal(cart, req);
+    res.redirect('/cart')
+    
+  }
+
+  rmvProducts = (req, res) => {
+    var id = req.body.id;
+    var cart = req.session.cart;
+
+    for (let i = 0; i < cart.length; i++) {
+      if (cart[i].id == id) {
+        cart.splice(cart.indexOf(i), 1);
+      }
+    }
+    calculateTotal(cart, req);
 
     res.redirect('/cart')
   }
-  cart = (req, res) => {
+  editProductQuantity = (req, res) => {
+    var id = req.body.id;
+    var quantity = req.body.quantity;
+    var increase_btn = req.body.increase_product_quantity;
+    var decrease_btn = req.body.decrease_product_quantity;
+
     var cart = req.session.cart;
-    var total = req.session.total;
-    res.render('cart', { cart: cart, total: total })
+    if (increase_btn) {
+      for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id == id) {
+
+          if (cart[i].quantity > 0) {
+            cart[i].quantity = parseInt(cart[i].quantity) + 1;
+
+          }
+        }
+      }
+    }
+    if (decrease_btn) {
+      for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id == id) {
+
+          if (cart[i].quantity > 1) {
+            cart[i].quantity = parseInt(cart[i].quantity) - 1;
+
+          }
+        }
+      }
+    }
+    calculateTotal(cart, req)
+    res.redirect('/cart')
   }
+
 };
 module.exports = new controllProduct
