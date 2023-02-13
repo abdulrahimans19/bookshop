@@ -1,142 +1,60 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-  <!-- Basic -->
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- Mobile Metas -->
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  <!-- Site Metas -->
-  <link rel="icon" href="images/fevicon/fevicon.png" type="image/gif" />
-  <meta name="keywords" content="" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-
-  <title>My Cart</title>
-
-
-  <!-- bootstrap core css -->
-  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-
-  <!-- fonts style -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
-
-  <!-- font awesome style -->
-  <link href="css/font-awesome.min.css" rel="stylesheet" />
-
-  <!-- Custom styles for this template -->
-  <link href="css/style.css" rel="stylesheet" />
-  <!-- responsive style -->
-  <link href="css/responsive.css" rel="stylesheet" />
-
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="index.css">
 </head>
-
-<body class="sub_page">
-
-  <div class="hero_area">
-    <!-- header section strats -->
-    <header class="header_section">
-      <div class="container-fluid">
-        <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="index.html">
-            <span>
-              My cart
-            </span>
-          </a>
-
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class=""> </span>
-          </button>
-
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav  ">
-              <li class="nav-item active">
-                <a class="nav-link" href="/index">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/cart">Cart</a>
-              </li>
-            </ul>
-            <div class="user_optio_box">
-              <a href="">
-                <i class="fa fa-user" aria-hidden="true"></i>
-              </a>
-              <a href="/cart">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                <a href="/logout"><button type="button" id="addUserBtn" class="btn btn-danger">logout</button></a>
-              </a>
+<body>
+    <header>
+        <nav class="navbar">
+            <h1>Cart</h1>
+            <div class="navts">
+                <a href="/index"><h3>Add More</h3></a>
+                <a href="/logout"><h3>Log Out</h3></a>
+            
             </div>
-          </div>
         </nav>
-      </div>
     </header>
-    <table>
-      <!-- end header section -->
-  </div>
-  <% cart.forEach(function(item){ %>
-    <tr>
-      <td>
-        <div class="product_info">
-          <img src="<%= item.image %>">
-          <div>
-            <p>
-              <%= item.name %>
-            </p>
-            <small><span>$</span>
-              <%= item.price %>
-            </small>
-            <br>
-            <form method="post" action="/remove_products">
-              <input type="hidden" name="id" value="<%= item.id %>">
-              <input type="submit" name="remove_btn" class="remove-btn" value="Remove">
-            </form>
+    <div class="cart_heading">
+        <h2>
+          Your Orders are heree...!
+        </h2>
+      </div>
+        <div class="products">
+            <div class="grid">
+              <% cart.forEach(function(item){ %>
+              <div>
+            <div class="grid-item">
+              <img src="images/Shakespeare.png" class="book-image">
+              <h3> <%= item.name %></h3>
+              <p class="book-price">$<%= item.price %></p>
+              <p class="book-description"> <%= item.description %></p>
           </div>
-        </div>
-      </td>
-      <td>
-        <form method="post" action="/edit_product_quantity">
-          <input type="hidden" value="<%= item.id %>" name="id">
-          <input type="submit" value="-" class="edit-btn" name="decrease_product_quantity">
-          <input type="text" name="quantiy" class="quant" value="<%= item.quantity %>" readonly>
-          <input type="submit" value="+" class="edit-btn" name="increase_product_quantity">
-
+          <form method="post" action="/edit_product_quantity">
+            <input type="hidden" value="<%= item.id %>" name="id">
+            <input type="submit" value="-" class="edit-btn" name="decrease_product_quantity">
+            <input type="text" name="quantiy" class="quant" value="<%= item.quantity %>" readonly>
+            <input type="submit" value="+" class="edit-tn" name="increase_product_quantity">
         </form>
-      </td>
-      <span class="product-price">$ <%= item.price *item.quantity %></span>
-    </tr>
-    </table>
-    <div class="cart-total">
-      <table>
-        <tr>
-          <td>Total</td>
-          <td>
-            <%= total %>
-          </td>
-        </tr>
-      </table>
-    </div>
+        <form method="post" action="/remove_products">
+            <input type="hidden" name="id" value="<%= item.id %>">
+            <input type="submit" name="remove_btn" class="remove-btn" value="Remove">
+          </form>
+        <span class="product-price">$<%= item.price *item.quantity %></span>
+              </div>
     <%}) %>
-
-
-
-      <!-- jQery -->
-      <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
-      <!-- popper js -->
-      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
-        </script>
-      <!-- bootstrap js -->
-      <script type="text/javascript" src="js/bootstrap.js"></script>
-      <!-- custom js -->
-      <script type="text/javascript" src="js/custom.js"></script>
-      <!-- Google Map -->
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-      </script>
-      <!-- End Google Map -->
-
+    <div class="cart-total">
+        <table>
+            <tr>
+                <td>Total</td>
+                <td>
+                    <%= total %>
+                </td>
+            </tr>
+        </table>
+    </div>
 </body>
-
 </html>
