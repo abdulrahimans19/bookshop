@@ -26,7 +26,7 @@ class controllProduct {
   indexPage = (req, res) => {
     Product.find({}, (err, result) => {
       if (err) throw err;
-      res.render("index", { result: result })
+      res.render('index', { result: result })
     })
   }
   cart = (req, res) => {
