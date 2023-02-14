@@ -30,11 +30,14 @@ class controllProduct {
     })
   }
   cart = (req, res) => {
-    var cart = req.session.cart;
-    var total = req.session.total;
-     return res.render('cart', { cart: cart, total: total })
+    if (req.session.cart) {
+      var cart = req.session.cart;
+      var total = req.session.total;
+      res.render('cart', { cart: cart, total: total });
+    } else {
+      res.render('cart', { cart: [], total: 0 });
+    }
   }
-
   addtoCart = (req, res) => {
     let id = req.body.id;
     let name = req.body.name;
@@ -45,7 +48,6 @@ class controllProduct {
 
     if (req.session.cart) {
       var cart = req.session.cart;
-
       if (!isProductInCart(cart, id)) {
         cart.push(products)
       }
@@ -53,12 +55,9 @@ class controllProduct {
       req.session.cart = [products]
       var cart = req.session.cart
     }
-
     calculateTotal(cart, req);
     res.redirect('/cart')
-    
   }
-
   rmvProducts = (req, res) => {
     var id = req.body.id;
     var cart = req.session.cart;
@@ -69,8 +68,7 @@ class controllProduct {
       }
     }
     calculateTotal(cart, req);
-
-    res.redirect('/cart')
+   res.redirect('/cart')
   }
   editProductQuantity = (req, res) => {
     var id = req.body.id;
@@ -93,10 +91,8 @@ class controllProduct {
     if (decrease_btn) {
       for (let i = 0; i < cart.length; i++) {
         if (cart[i].id == id) {
-
           if (cart[i].quantity > 1) {
             cart[i].quantity = parseInt(cart[i].quantity) - 1;
-
           }
         }
       }
@@ -104,6 +100,5 @@ class controllProduct {
     calculateTotal(cart, req)
     res.redirect('/cart')
   }
-
 };
 module.exports = new controllProduct
