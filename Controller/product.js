@@ -9,7 +9,6 @@ function isProductInCart(cart, id) {
   }
   return false;
 }
-
 function calculateTotal(cart, req) {
   total = 0;
   for (let i = 0; i < cart.length; i++) {
@@ -52,7 +51,6 @@ const controllProduct = {
       quantity: quantity,
       image: image,
     };
-
     let cart = req.session.cart || [];
     if (!isProductInCart(cart, id)) {
       cart.push(products);
@@ -61,7 +59,7 @@ const controllProduct = {
       cartProduct.create(
         {
           session: req.sessionID,
-          product_id: id,
+          productId: id,
           name: name,
           price: price,
           quantity: quantity,
@@ -84,7 +82,7 @@ const controllProduct = {
     }
     req.session.cart = cart;
     calculateTotal(cart, req);
-    cartProduct.deleteOne({ product_id: id }, (err, result) => {
+    cartProduct.deleteOne({ productId: id }, (err, result) => {
       if (err) throw err;
       console.log("Product removed from cartProduct database");
     });
@@ -95,7 +93,6 @@ const controllProduct = {
     let quantity = req.body.quantity;
     let increaseBtn = req.body.increaseProductQuantity;
     let decreaseBtn = req.body.decreaseProductQuantity;
-
     let cart = req.session.cart;
     if (increaseBtn) {
       for (let i = 0; i < cart.length; i++) {
