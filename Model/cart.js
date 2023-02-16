@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const productSchema = new mongoose.Schema({
+const cartSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
   description: {
     type: String,
-    required: true,
+    required: false,
   },
   image: {
     type: String,
@@ -17,7 +17,11 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  session: {
+    type: String,
+    required: true,
+  },
 });
-const collection = mongoose.model("products", productSchema);
+const collectedcart = mongoose.model("cart", cartSchema);
 
-module.exports = collection;
+module.exports = collectedcart;

@@ -1,4 +1,5 @@
-const Product = require("../Model/Product");
+const Product = require("../model/product");
+const cartProduct = require("../model/cart");
 
 function isProductInCart(cart, id) {
   for (let i = 0; i < cart.length; i++) {
@@ -6,89 +7,106 @@ function isProductInCart(cart, id) {
       return true;
     }
   }
-  return false
+  return false;
 }
 
 function calculateTotal(cart, req) {
   total = 0;
   for (let i = 0; i < cart.length; i++) {
     if (cart[i].price) {
-      total = total + (cart[i].price * cart[i].quantity)
+      total = total + cart[i].price * cart[i].quantity;
     } else {
-      total = total + (cart[i].price * cart[i].quantity)
+      total = total + cart[i].price * cart[i].quantity;
     }
   }
   req.session.total = total;
   return total;
 }
 
-class controllProduct {
-  indexPage = (req, res) => {
+const controllProduct = {
+  indexPage: (req, res) => {
     Product.find({}, (err, result) => {
       if (err) throw err;
-      res.render('index', { result: result })
-    })
-  }
-  cart = (req, res) => {
+      res.render("index", { result: result });
+    });
+  },
+  cart: (req, res) => {
     if (req.session.cart) {
-      var cart = req.session.cart;
-      var total = req.session.total;
-      res.render('cart', { cart: cart, total: total });
+      let cart = req.session.cart;
+      let total = req.session.total;
+      res.render("cart", { cart: cart, total: total });
     } else {
-      res.render('cart', { cart: [], total: 0 });
+      res.render("cart", { cart: [], total: 0 });
     }
-  }
-  addtoCart = (req, res) => {
+  },
+  addtoCart: (req, res) => {
     let id = req.body.id;
     let name = req.body.name;
     let price = req.body.price;
     let quantity = req.body.quantity;
     let image = req.body.image;
-    let products = { id: id, name: name, price: price, quantity: quantity, image: image };
+    let products = {
+      id: id,
+      name: name,
+      price: price,
+      quantity: quantity,
+      image: image,
+    };
 
-    if (req.session.cart) {
-      var cart = req.session.cart;
-      if (!isProductInCart(cart, id)) {
-        cart.push(products)
-      }
-    } else {
-      req.session.cart = [products]
-      var cart = req.session.cart
+    let cart = req.session.cart || [];
+    if (!isProductInCart(cart, id)) {
+      cart.push(products);
+      req.session.cart = cart;
+      calculateTotal(cart, req);
+      cartProduct.create(
+        {
+          session: req.sessionID,
+          product_id: id,
+          name: name,
+          price: price,
+          quantity: quantity,
+          image: image,
+        },
+        (err, result) => {
+          if (err) throw err;
+        }
+      );
     }
-    calculateTotal(cart, req);
-    res.redirect('/cart')
-  }
-  rmvProducts = (req, res) => {
-    var id = req.body.id;
-    var cart = req.session.cart;
-
+    res.redirect("/cart");
+  },
+  removeProducts: (req, res) => {
+    let id = req.body.id;
+    let cart = req.session.cart;
     for (let i = 0; i < cart.length; i++) {
       if (cart[i].id == id) {
-        cart.splice(cart.indexOf(i), 1);
+        cart.splice(i, 1);
       }
     }
+    req.session.cart = cart;
     calculateTotal(cart, req);
-   res.redirect('/cart')
-  }
-  editProductQuantity = (req, res) => {
-    var id = req.body.id;
-    var quantity = req.body.quantity;
-    var increase_btn = req.body.increase_product_quantity;
-    var decrease_btn = req.body.decrease_product_quantity;
+    cartProduct.deleteOne({ product_id: id }, (err, result) => {
+      if (err) throw err;
+      console.log("Product removed from cartProduct database");
+    });
+    res.redirect("/cart");
+  },
+  editProductQuantity: (req, res) => {
+    let id = req.body.id;
+    let quantity = req.body.quantity;
+    let increaseBtn = req.body.increaseProductQuantity;
+    let decreaseBtn = req.body.decreaseProductQuantity;
 
-    var cart = req.session.cart;
-    if (increase_btn) {
+    let cart = req.session.cart;
+    if (increaseBtn) {
       for (let i = 0; i < cart.length; i++) {
         if (cart[i].id == id) {
-
           if (cart[i].quantity > 0) {
             cart[i].quantity = parseInt(cart[i].quantity) + 1;
-
           }
         }
       }
     }
-    if (decrease_btn) {
+    if (decreaseBtn) {
       for (let i = 0; i < cart.length; i++) {
         if (cart[i].id == id) {
           if (cart[i].quantity > 1) {
@@ -97,8 +115,8 @@ class controllProduct {
         }
       }
     }
-    calculateTotal(cart, req)
-    res.redirect('/cart')
-  }
+    calculateTotal(cart, req);
+    res.redirect("/cart");
+  },
 };
-module.exports = new controllProduct
+module.exports = controllProduct;

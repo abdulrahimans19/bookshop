@@ -21,19 +21,17 @@
     <div class="content">
         <div class="text">
             <p>
-            <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h2><br>
-            <h4> Sed iaculis, justo auctor efficitur varius, elit lectus convallis libero, id dapibus nibh est id
-                ligula.</h4><br> Nam fringilla erat eget viverra rhoncus. Aenean varius,<br>
-            leo vel congue gravida, lectus enim facilisis tellus, at dictum magna quam eget dolor. In vel velit mi. Sed
-            vel velit vel nulla interdum pharetra.
-            Donec facilisis turpis ut libero egestas, in luctus leo commodo. Sed gravida elit at justo posuere tempor.
+            <h2>Books that you are searching for Buy</h2><br>
+            <h4> leading books you should try once because national wide hits and award winning books and creative authors are supported </h4>
+            <br> easy delivery on doorstep with zero cost,<br>
+            ok lets introduse our Shakespeare all time top works
             </p>
         </div>
-        <div class="image-container">
+        <div class="imageContainer">
             <img src="images/Shakespeare.png" class="image">
         </div>
     </div>
-    <div class="product_heading">
+    <div class="productHeading">
         <h2>
           Top List
         </h2>
@@ -42,20 +40,20 @@
           <div class="grid">
             <% result.forEach(function(item) { %>
             <div>
-          <div class="grid-item">
-            <img src="images/Shakespeare.png" class="book-image">
+          <div class="gridItem">
+            <img src="images/Shakespeare.png" class="bookImage">
             <h3> <%= item.name %></h3>
-            <p class="book-price">$<%= item.price %></p>
-            <p class="book-description"> <%= item.description %></p>
+            <p class="bookPrice">$<%= item.price %></p>
+            <p class="bookDescription"> <%= item.description %></p>
         </div>
-        <form action="/add_to_cart" method="post">    
+        <form action="/addToCart" method="post">    
             <input type="hidden" name="id" value="<%= item.id %>">
             <input type="hidden" name="name" value="<%= item.name %>">
             <input type="hidden" name="price" value="<%= item.price %>">
             <input type="hidden" name="quantity" value="1">
             <input type="hidden" name="image" value="<%= item.image %>">
-            <input type="submit" value="Buy" class="btn-box ">
-        </form>
+            <input type="submit" value="Buy" class="buyBtn ">
+        </form> 
     </div>
     <% })%>
         </div>

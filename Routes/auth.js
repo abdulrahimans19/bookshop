@@ -1,15 +1,15 @@
-const router = require('express').Router()
-const controller = require('../Controller/controller')
-const controllProduct=require('../Controller/product')
+const router = require("express").Router();
+const controller = require("../controller/controller");
+const controllProduct = require("../controller/product");
 
-router.get('/register', controller.registerPage)
-router.get('/', controller.loginPage)
-router.get('/logout', controller.deletepage)
-router.get('/index',controllProduct.indexPage)
-router.get('/cart',controllProduct.cart)
-router.post('/register', controller.userRegister)
-router.post('/', controller.login)
-router.post('/add_to_cart',controllProduct.addtoCart)
-router.post('/remove_products',controllProduct.rmvProducts)
-router.post('/edit_product_quantity',controllProduct.editProductQuantity)
+router.get("/register", controller.registerPage);
+router.post("/register", controller.userRegister);
+router.get("/", controller.loginPage);
+router.post("/", controller.login);
+router.get("/logout", controller.logoutPage);
+router.get("/index", controllProduct.indexPage);
+router.post("/addToCart", controllProduct.addtoCart);
+router.get("/cart", controllProduct.cart);
+router.post("/removeProducts", controllProduct.removeProducts);
+router.post("/editProductQuantity", controllProduct.editProductQuantity);
 module.exports = router;
