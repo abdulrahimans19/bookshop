@@ -1,5 +1,5 @@
-const Product = require("../model/product");
-const cartProduct = require("../model/cart");
+const Product = require("../model/Product");
+const cartProduct = require("../model/Cart");
 
 function calculateTotal(cart, req) {
   total = 0;

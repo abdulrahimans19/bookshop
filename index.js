@@ -4,9 +4,7 @@ const ejs = require("ejs");
 const path = require("path");
 const authRoute = require("./routes/auth");
 const mongoose = require("./model/database");
-const collections = require("./model/user");
-const collection = require("./model/product");
-const cartProducts = require("./model/cart");
+
 
 const app = express();
 app.use(
