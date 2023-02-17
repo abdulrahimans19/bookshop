@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Store</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <h1>Books</h1>
+            <div>
+                <a href="/logout">Logout</a>
+            </div>
+        </nav>
+    </header>
+    <div class="content">
+        <div class="text">
+            <p>
+            <h2>Books that you are searching for Buy</h2><br>
+            <h4> leading books you should try once because national wide hits and award winning books and creative authors are supported </h4>
+            <br> easy delivery on doorstep with zero cost,<br>
+            ok lets introduse our Shakespeare all time top works
+            </p>
+        </div>
+        <div class="imageContainer">
+            <img src="images/Shakespeare.png" class="image">
+        </div>
+    </div>
+    <div class="productHeading">
+        <h2>
+          Top List
+        </h2>
+      </div>
+      <div class="products">
+          <div class="grid">
+            <% result.forEach(function(item) { %>
+            <div>
+          <div class="gridItem">
+            <img src="images/Shakespeare.png" class="bookImage">
+            <h3> <%= item.name %></h3>
+            <p class="bookPrice">$<%= item.price %></p>
+            <p class="bookDescription"> <%= item.description %></p>
+        </div>
+        <form action="/addToCart" method="post">    
+            <input type="hidden" name="id" value="<%= item.id %>">
+            <input type="hidden" name="name" value="<%= item.name %>">
+            <input type="hidden" name="price" value="<%= item.price %>">
+            <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="image" value="<%= item.image %>">
+            <input type="submit" value="Buy" class="buyBtn ">
+        </form> 
+    </div>
+    <% })%>
+        </div>
+    </div>
+      
+</body>
+
+</html>

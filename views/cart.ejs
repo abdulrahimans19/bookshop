@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar"> 
+            <h1>Cart</h1>
+            <div class="navts">
+                <a href="/index"><h3>Add More</h3></a>
+                <a href="/logout"><h3>Log Out</h3></a>
+            
+            </div>
+        </nav>
+    </header>
+    <div class="cartHeading">
+        <h2>
+          Your Orders are heree...!
+        </h2>
+      </div>
+        <div class="products">
+            <div class="grid">
+                <% if (Array.isArray(cart)) { %>
+              <% cart.forEach(function(item){ %>
+              <div>
+            <div class="gridItem">
+              <img src="images/Shakespeare.png" class="bookImage">
+              <h3> <%= item.name %></h3>
+              <p class="bookPrice">$<%= item.price %></p>
+              <p class="bookDescription"> <%= item.description %></p>
+          </div>
+          <form method="post" action="/editProductQuantity">
+            <input type="hidden" value="<%= item.id %>" name="id">
+            <input type="submit" value="-" class="editBtn" name="decreaseProductQuantity">
+            <input type="text" name="quantiy" class="quant" value="<%= item.quantity %>" readonly>
+            <input type="submit" value="+" class="editTn" name="increaseProductQuantity">
+        </form>
+        <form method="post" action="/removeProducts">
+            <input type="hidden" name="id" value="<%= item.id %>">
+            <input type="submit" name="removeBtn" class="removeBtn" value="Remove">
+          </form>
+        <span class="productPrice">$<%= item.price *item.quantity %></span>
+              </div>
+    <%}) %>
+    <% } %>
+    <div class="cartTotal">
+        <table>
+            <tr>
+                <td>Total</td>
+                <td>
+                    <%= total %>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>RegisterPage</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+
+  <body>
+    <div class="containerss">
+      <div class="boxtable">
+        <h1>Register</h1>
+        <form action="/register" method="post">
+          <label
+            for="username"
+            style="display: block; margin-bottom: 0px; text-align: left"
+            >Name</label
+          >
+          <input
+            type="text"
+            class="textof"
+            name="username"
+            id="username"
+            required
+          />
+          <label
+            for="email"
+            style="display: block; margin-bottom: 10px; text-align: left"
+            >Email</label
+          >
+          <input
+            type="email"
+            class="emailof"
+            name="email"
+            id="email"
+            required
+          />
+          <label
+            for="password"
+            style="display: block; margin-bottom: 10px; text-align: left"
+            >Password</label
+          >
+          <input
+            type="password"
+            class="passwordof"
+            name="password"
+            id="password"
+            required
+          />
+          <input type="submit" class="submitof" value="Login" />
+        </form>
+        <p>Already have an account? Please<a href="/">Login</a></p>
+      </div>
+    </div>
+  </body>
+</html>
