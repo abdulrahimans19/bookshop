@@ -1,14 +1,6 @@
 const Product = require("../model/product");
 const cartProduct = require("../model/cart");
 
-function isProductInCart(cart, id) {
-  for (let i = 0; i < cart.length; i++) {
-    if (cart[i].id == id) {
-      return true;
-    }
-  }
-  return false;
-}
 function calculateTotal(cart, req) {
   total = 0;
   for (let i = 0; i < cart.length; i++) {
@@ -20,6 +12,29 @@ function calculateTotal(cart, req) {
   }
   req.session.total = total;
   return total;
+}
+function isProductInCart(cart, id) {
+  for (let i = 0; i < cart.length; i++) {
+    if (cart[i].id == id) {
+      for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id == id) {
+          if (cart[i].quantity > 0) {
+            cart[i].quantity = parseInt(cart[i].quantity) + 1;
+            cartProduct.updateOne(
+              { productId: id },
+              { $set: { quantity: cart[i].quantity } },
+              (err, result) => {
+                if (err) throw err;
+              }
+            );
+          }
+        }
+      }
+      return true;
+      
+    } 
+  }
+  return false;
 }
 
 const controllProduct = {
