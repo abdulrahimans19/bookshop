@@ -99,6 +99,13 @@ const controllProduct = {
         if (cart[i].id == id) {
           if (cart[i].quantity > 0) {
             cart[i].quantity = parseInt(cart[i].quantity) + 1;
+            cartProduct.updateOne(
+              { productId: id },
+              { $set: { quantity: cart[i].quantity } },
+              (err, result) => {
+                if (err) throw err;
+              }
+            );
           }
         }
       }
@@ -108,6 +115,13 @@ const controllProduct = {
         if (cart[i].id == id) {
           if (cart[i].quantity > 1) {
             cart[i].quantity = parseInt(cart[i].quantity) - 1;
+            cartProduct.updateOne(
+              { productId: id },
+              { $set: { quantity: cart[i].quantity } },
+              (err, result) => {
+                if (err) throw err;
+              }
+            );
           }
         }
       }

@@ -17,6 +17,10 @@ const cartSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  quantity:{
+    type:Number,
+    required:true,
+  },
   session: {
     type: String,
     required: true,
