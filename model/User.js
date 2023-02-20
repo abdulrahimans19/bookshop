@@ -23,5 +23,5 @@ const Schema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const collections = new mongoose.model("store", Schema);
+const collections = new mongoose.model("users", Schema);
 module.exports = collections;

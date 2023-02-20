@@ -25,8 +25,8 @@
       </div>
         <div class="products">
             <div class="grid">
-                <% if (Array.isArray(cart)) { %>
-              <% cart.forEach(function(item){ %>
+                <% if (Array.isArray(usercart)) { %>
+              <% usercart.forEach(function(item){ %>
               <div>
             <div class="gridItem">
               <img src="images/Shakespeare.png" class="bookImage">
@@ -37,7 +37,7 @@
           <form method="post" action="/editProductQuantity">
             <input type="hidden" value="<%= item.id %>" name="id">
             <input type="submit" value="-" class="editBtn" name="decreaseProductQuantity">
-            <input type="text" name="quantiy" class="quant" value="<%= item.quantity %>" readonly>
+            <input type="text" name="quantity" class="quant" value="<%= item.quantity %>" readonly>
             <input type="submit" value="+" class="editTn" name="increaseProductQuantity">
         </form>
         <form method="post" action="/removeProducts">

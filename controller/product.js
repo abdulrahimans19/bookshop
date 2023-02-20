@@ -1,7 +1,7 @@
 const Product = require("../model/Product");
 const cartProduct = require("../model/Cart");
 
-function calculateTotal(cart, req) {
+calculateTotal = (cart, req) => {
   total = 0;
   for (let i = 0; i < cart.length; i++) {
     if (cart[i].price) {
@@ -12,96 +12,97 @@ function calculateTotal(cart, req) {
   }
   req.session.total = total;
   return total;
-}
-function isProductInCart(cart, id) {
+};
+isProductInCart = (cart, id) => {
   for (let i = 0; i < cart.length; i++) {
     if (cart[i].id == id) {
-      for (let i = 0; i < cart.length; i++) {
-        if (cart[i].id == id) {
-          if (cart[i].quantity > 0) {
-            cart[i].quantity = parseInt(cart[i].quantity) + 1;
-            cartProduct.updateOne(
-              { productId: id },
-              { $set: { quantity: cart[i].quantity } },
-              (err, result) => {
-                if (err) throw err;
-              }
-            );
-          }
-        }
-      }
       return true;
-      
-    } 
+    }
   }
   return false;
-}
-
+};
 const controllProduct = {
-  indexPage: (req, res) => {
-    Product.find({}, (err, result) => {
-      if (err) throw err;
-      res.render("index", { result: result });
-    });
-  },
-  cart: (req, res) => {
-    if (req.session.cart) {
-      let cart = req.session.cart;
-      let total = req.session.total;
-      res.render("cart", { cart: cart, total: total });
-    } else {
-      res.render("cart", { cart: [], total: 0 });
+  indexPage: async (req, res) => {
+    try {
+      const products = await Product.find({});
+      res.render("index", { result: products });
+    } catch (error) {
+      console.error("Error getting products:", error);
+      res.status(500).send("Server error");
     }
   },
-  addtoCart: (req, res) => {
-    let id = req.body.id;
-    let name = req.body.name;
-    let price = req.body.price;
-    let quantity = req.body.quantity;
-    let image = req.body.image;
-    let products = {
-      id: id,
-      name: name,
-      price: price,
-      quantity: quantity,
-      image: image,
-    };
-    let cart = req.session.cart || [];
-    if (!isProductInCart(cart, id)) {
-      cart.push(products);
-      req.session.cart = cart;
-      calculateTotal(cart, req);
-      cartProduct.create(
-        {
-          session: req.sessionID,
-          productId: id,
+  cart: async (req, res) => {
+    try {
+      const userId = req.session.user;
+      const savedCarts = await cartProduct.find({ userID: userId });
+      const cart = req.session.cart || [];
+      const total = calculateTotal(cart, req);
+      res.render("cart", { usercart: savedCarts, cart: cart, total: total });
+    } catch (error) {
+      console.error("Error getting carts:", error);
+      res.status(500).send("Server error");
+    }
+  },
+  addtoCart: async (req, res) => {
+    try {
+      const userId = req.session.user;
+      const productId = req.body.id;
+      const name = req.body.name;
+      const price = req.body.price;
+      const quantity = req.body.quantity;
+      const image = req.body.image;
+      const cart = req.session.cart || [];
+      let product = cart.find((product) => product.id === productId);
+      if (product) {
+        product.quantity++;
+        await cartProduct.updateOne(
+          { userID: userId, productId: productId },
+          { $set: { quantity: product.quantity } }
+        );
+      } else {
+        product = {
+          userID: userId,
+          id: productId,
           name: name,
           price: price,
           quantity: quantity,
           image: image,
-        },
-        (err, result) => {
-          if (err) throw err;
-        }
-      );
-    }
-    res.redirect("/cart");
-  },
-  removeProducts: (req, res) => {
-    let id = req.body.id;
-    let cart = req.session.cart;
-    for (let i = 0; i < cart.length; i++) {
-      if (cart[i].id == id) {
-        cart.splice(i, 1);
+        };
+        cart.push(product);
+        await cartProduct.create({
+          userID: userId,
+          session: req.sessionID,
+          productId: productId,
+          name: name,
+          price: price,
+          quantity: quantity,
+          image: image,
+        });
       }
+      req.session.cart = cart;
+      calculateTotal(cart, req);
+      res.redirect("/cart");
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+      res.status(500).send("Server error");
     }
-    req.session.cart = cart;
-    calculateTotal(cart, req);
-    cartProduct.deleteOne({ productId: id }, (err, result) => {
-      if (err) throw err;
-      console.log("Product removed from cartProduct database");
-    });
-    res.redirect("/cart");
+  },
+  removeProducts: async (req, res) => {
+    try {
+      const productId = req.body.id;
+      const cart = req.session.cart;
+      const filteredCart = cart.filter((product) => product.id !== productId);
+      req.session.cart = filteredCart;
+      await cartProduct.deleteOne({
+        userID: req.session.user,
+        productId: productId,
+      });
+      calculateTotal(filteredCart, req);
+      res.redirect("/cart");
+    } catch (error) {
+      console.error("Error removing product from cart:", error);
+      res.status(500).send("Server error");
+    }
   },
   editProductQuantity: (req, res) => {
     let id = req.body.id;
@@ -115,7 +116,7 @@ const controllProduct = {
           if (cart[i].quantity > 0) {
             cart[i].quantity = parseInt(cart[i].quantity) + 1;
             cartProduct.updateOne(
-              { productId: id },
+              { userID: req.session.user, id: id },
               { $set: { quantity: cart[i].quantity } },
               (err, result) => {
                 if (err) throw err;
@@ -131,7 +132,7 @@ const controllProduct = {
           if (cart[i].quantity > 1) {
             cart[i].quantity = parseInt(cart[i].quantity) - 1;
             cartProduct.updateOne(
-              { productId: id },
+              { userID: req.session.user, id: id },
               { $set: { quantity: cart[i].quantity } },
               (err, result) => {
                 if (err) throw err;

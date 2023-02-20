@@ -5,13 +5,12 @@ const path = require("path");
 const authRoute = require("./routes/auth");
 const mongoose = require("./model/database");
 
-
 const app = express();
 app.use(
   session({
     secret: "secret",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
   })
 );
 app.use(express.json());
